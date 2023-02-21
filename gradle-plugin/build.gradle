@@ -9,7 +9,7 @@ plugins {
 group = "com.lightbend.akka.grpc"
 // https://github.com/palantir/gradle-git-version/issues/97
 
-gitDescribeOutput = "git describe --tags".execute().text
+def gitDescribeOutput = "git describe --tags".execute().text
 println(gitDescribeOutput)
 def tag = gitDescribeOutput.substring(1).split("-g")[0].replace("\n", "")
 def finalVersion = (tag == versionDetails().lastTag.substring(1)) ? tag : tag.reverse().reverse() + "-" + versionDetails().gitHash.substring(0, 8)
