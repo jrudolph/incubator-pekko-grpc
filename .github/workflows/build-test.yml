@@ -45,9 +45,9 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Publish artifacts locally
+        #sbt akka-grpc-codegen/publishM2 akka-grpc-scalapb-protoc-plugin/publishM2 +akka-grpc-runtime/publishM2
         run: |-
           cp .jvmopts-ghactions .jvmopts
-          sbt akka-grpc-codegen/publishM2 akka-grpc-scalapb-protoc-plugin/publishM2 +akka-grpc-runtime/publishM2
           cd gradle-plugin
           ./gradlew clean publishToMavenLocal --console=plain --info --stacktrace
           find ~/.m2 | grep gradle
@@ -55,11 +55,6 @@ jobs:
       - name: Test Gradle Java ${{ matrix.SCALA_VERSION }}
         run: |-
           cd plugin-tester-java
-          ./gradlew clean test --console=plain --info --stacktrace -Dakka.grpc.project.version=$(cat ~/.version | sed -e s/-SNAPSHOT//)
-
-      - name: Test Gradle Scala ${{ matrix.SCALA_VERSION }}
-        run: |-
-          cd plugin-tester-scala
           ./gradlew clean test --console=plain --info --stacktrace -Dakka.grpc.project.version=$(cat ~/.version | sed -e s/-SNAPSHOT//)
 
       - name: Stop Gradle Daemon
