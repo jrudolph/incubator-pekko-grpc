@@ -46,9 +46,9 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Publish artifacts locally
-        #sbt akka-grpc-codegen/publishM2 akka-grpc-scalapb-protoc-plugin/publishM2 +akka-grpc-runtime/publishM2
         run: |-
           cp .jvmopts-ghactions .jvmopts
+          sbt akka-grpc-codegen/publishM2 akka-grpc-scalapb-protoc-plugin/publishM2 +akka-grpc-runtime/publishM2
           cd gradle-plugin
           ./gradlew clean publishToMavenLocal --console=plain --info --stacktrace
           find ~/.m2 | grep gradle
